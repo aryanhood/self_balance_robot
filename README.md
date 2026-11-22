@@ -45,10 +45,21 @@ This generates simulation logs and the plots shown below.
 
 ### Control effort (control input vs time)
 
-![Control Effort](plots/pid_vs_lqr_u.png) (plots/pid_vs_lqr_u.png)
+![Control Effort](plots/pid_vs_lqr_u.png)
 
 * PID produces large, oscillatory control inputs.
 * LQR achieves stabilization with smoother and lower control effort.
+
+---
+
+## Quantitative Summary (0.1 rad Disturbance at t = 2.0 s)
+
+| Controller | Settling Final `theta` (t = 6 s) | Squared Angle Error `sum(theta^2)` | Squared Control Effort `sum(u^2)` |
+|---|---:|---:|---:|
+| PID (`kp=20, kd=2`) | 0.00183 rad | 0.2748 | 253.28 |
+| LQR (`CARE Q, R`) | **0.00164 rad** | **0.1731** (`-37.0%`) | **172.20** (`-32.0%`) |
+
+> **Plant Modeling Note:** `config/plant.json` uses a unit-coupled surrogate `B = [0, 1, 0, 1]^T` (controllability rank 3), which stabilizes the pendulum and velocity dynamics cleanly in the left half-plane while leaving an uncoupled marginal integrator mode near `0` on cart position `x`.
 
 ---
 
